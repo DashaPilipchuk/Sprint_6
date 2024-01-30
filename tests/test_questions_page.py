@@ -2,78 +2,32 @@ from locators.questions_page_locators import QuestionsPageLocators
 from pages.questions_page import QuestionsPage
 from pages.scooter_page import ScooterPage
 import allure
+import pytest
+from const import Constants
 
 
 class TestQuestionsPage:
-    @allure.step('Кликаем на вопрос "Сколько это стоит? И как оплатить?"')
-    def test_click_on_drop_down_how_much_question(self, driver):
+    @allure.title('Tecт на проверку соответствия текста в ответе на популярный вопрос')
+    @pytest.mark.parametrize('locator, answer, answer_text', [
+        (QuestionsPageLocators.HOW_MUCH_BUTTON, QuestionsPageLocators.HOW_MUCH_ANSWER, Constants.HOW_MUCH_TEXT),
+        (QuestionsPageLocators.SEVERAL_SCOOTER_BUTTON, QuestionsPageLocators.SEVERAL_SCOOTER_ANSWER,
+         Constants.SEVERAL_SCOOTER_TEXT),
+        (QuestionsPageLocators.RENTAL_TIME_BUTTON, QuestionsPageLocators.RENTAL_TIME_ANSWER, Constants.RENTAL_TIME_TEXT),
+        (QuestionsPageLocators.TODAY_ORDER_BUTTON, QuestionsPageLocators.TODAY_ORDER_ANSWER, Constants.TODAY_ORDER_TEXT),
+        (QuestionsPageLocators.SCOOTER_TIME_BUTTON, QuestionsPageLocators.SCOOTER_TIME_ANSWER,
+         Constants.SCOOTER_TIME_TEXT),
+        (QuestionsPageLocators.SCOOTER_CHARGE_BUTTON, QuestionsPageLocators.SCOOTER_CHARGE_ANSWER,
+         Constants.SCOOTER_CHARGE_TEXT),
+        (QuestionsPageLocators.CANCEL_ORDER_BUTTON, QuestionsPageLocators.CANCEL_ORDER_ANSWER,
+         Constants.CANCEL_ORDER_TEXT),
+        (QuestionsPageLocators.PLACE_ORDER_BUTTON, QuestionsPageLocators.PLACE_ORDER_ANSWER, Constants.PLACE_ORDER_TEXT)])
+    def test_click_on_drop_down_how_much_question(self, driver, locator, answer, answer_text):
         questions_page = QuestionsPage(driver)
         questions_page.go_to_site_scooter('https://qa-scooter.praktikum-services.ru/')
         scooter_page = ScooterPage(driver)
         scooter_page.scrolling_to_questions_page()
-        questions_page.click_on_drop_down(QuestionsPageLocators.HOW_MUCH_BUTTON)
-        assert questions_page.find_element_located(QuestionsPageLocators.HOW_MUCH_TEXT)
+        questions_page.click_on_drop_down(locator)
+        assert answer_text in questions_page.get_text_of_element(answer)
 
-    @allure.step('Кликаем на вопрос "Хочу сразу несколько самокатов! Так можно?"')
-    def test_click_on_drop_down_several_scooters_question(self, driver):
-        questions_page = QuestionsPage(driver)
-        questions_page.go_to_site_scooter('https://qa-scooter.praktikum-services.ru/')
-        scooter_page = ScooterPage(driver)
-        scooter_page.scrolling_to_questions_page()
-        questions_page.click_on_drop_down(QuestionsPageLocators.SEVERAL_SCOOTER_BUTTON)
-        assert questions_page.find_element_located(QuestionsPageLocators.SEVERAL_SCOOTER_TEXT)
 
-    @allure.step('Кликаем на вопрос "Как рассчитывается время аренды?"')
-    def test_click_on_drop_down_rental_time_question(self, driver):
-        questions_page = QuestionsPage(driver)
-        questions_page.go_to_site_scooter('https://qa-scooter.praktikum-services.ru/')
-        scooter_page = ScooterPage(driver)
-        scooter_page.scrolling_to_questions_page()
-        questions_page.click_on_drop_down(QuestionsPageLocators.RENTAL_TIME_BUTTON)
-        assert questions_page.find_element_located(QuestionsPageLocators.RENTAL_TIME_TEXT)
-
-    @allure.step('Кликаем на вопрос "Можно ли заказать самокат прямо на сегодня?"')
-    def test_click_on_drop_down_today_order_question(self, driver):
-        questions_page = QuestionsPage(driver)
-        questions_page.go_to_site_scooter('https://qa-scooter.praktikum-services.ru/')
-        scooter_page = ScooterPage(driver)
-        scooter_page.scrolling_to_questions_page()
-        questions_page.click_on_drop_down(QuestionsPageLocators.TODAY_ORDER_BUTTON)
-        assert questions_page.find_element_located(QuestionsPageLocators.TODAY_ORDER_TEXT)
-
-    @allure.step('Кликаем на вопрос "Можно ли продлить заказ или вернуть самокат раньше?"')
-    def test_click_on_drop_down_scooter_time(self, driver):
-        questions_page = QuestionsPage(driver)
-        questions_page.go_to_site_scooter('https://qa-scooter.praktikum-services.ru/')
-        scooter_page = ScooterPage(driver)
-        scooter_page.scrolling_to_questions_page()
-        questions_page.click_on_drop_down(QuestionsPageLocators.SCOOTER_TIME_BUTTON)
-        assert questions_page.find_element_located(QuestionsPageLocators.SCOOTER_TIME_TEXT)
-
-    @allure.step('Кликаем на вопрос "Вы привозите зарядку вместе с самокатом?"')
-    def test_click_on_drop_down_scooter_charge(self, driver):
-        questions_page = QuestionsPage(driver)
-        questions_page.go_to_site_scooter('https://qa-scooter.praktikum-services.ru/')
-        scooter_page = ScooterPage(driver)
-        scooter_page.scrolling_to_questions_page()
-        questions_page.click_on_drop_down(QuestionsPageLocators.SCOOTER_CHARGE_BUTTON)
-        assert questions_page.find_element_located(QuestionsPageLocators.SCOOTER_CHARGE_TEXT)
-
-    @allure.step('Кликаем на вопрос "Можно ли отменить заказ?"')
-    def test_click_on_drop_down_cancel_order(self, driver):
-        questions_page = QuestionsPage(driver)
-        questions_page.go_to_site_scooter('https://qa-scooter.praktikum-services.ru/')
-        scooter_page = ScooterPage(driver)
-        scooter_page.scrolling_to_questions_page()
-        questions_page.click_on_drop_down(QuestionsPageLocators.CANCEL_ORDER_BUTTON)
-        assert questions_page.find_element_located(QuestionsPageLocators.CANCEL_ORDER_TEXT)
-
-    @allure.step('Кликаем на вопрос "Я жизу за МКАДом, привезёте?"')
-    def test_click_on_drop_down_place_order(self, driver):
-        questions_page = QuestionsPage(driver)
-        questions_page.go_to_site_scooter('https://qa-scooter.praktikum-services.ru/')
-        scooter_page = ScooterPage(driver)
-        scooter_page.scrolling_to_questions_page()
-        questions_page.click_on_drop_down(QuestionsPageLocators.PLACE_ORDER_BUTTON)
-        assert questions_page.find_element_located(QuestionsPageLocators.PLACE_ORDER_TEXT)
 

@@ -7,8 +7,7 @@ from pages.order_scooter_page import OrderScooterPage
 
 
 class TestOrderScooterPage:
-    @allure.step('Оформление заказа')
-    @allure.description('Проверка успещной авторизации')
+    @allure.title('Проверка успещной авторизации')
     @pytest.mark.parametrize("name, surname, telephone_number", [('Иван', "Иванов", "89999999999"), ('Мария', "Павлова", "89998888888")])
     def test_popup_success_message(self, driver, name, surname, telephone_number):
         order_scooter_page = OrderScooterPage(driver)
@@ -25,7 +24,7 @@ class TestOrderScooterPage:
         order_scooter_page.click_on_submit_button()
         assert order_scooter_page.find_element_located(OrderScooterPageLocators.SUCCESS_MESSAGE)
 
-    @allure.step('Переходим на стартовую страницу Яндекс Самоката из формы оформления заказа')
+    @allure.title('Переходим на стартовую страницу Яндекс Самоката из формы оформления заказа')
     def test_go_to_scooter_page_from_order_page(self, driver):
         order_scooter_page = OrderScooterPage(driver)
         order_scooter_page.go_to_site_scooter('https://qa-scooter.praktikum-services.ru/order')
