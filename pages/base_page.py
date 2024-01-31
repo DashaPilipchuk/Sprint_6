@@ -33,4 +33,10 @@ class BasePage:
     def get_text_of_element(self, element):
         return self.find_element_located(element).text
 
+    @allure.step('Перейти в новое окно')
+    def go_to_new_window(self, site_name):
+        WebDriverWait(self.driver, 10).until(expected_conditions.number_of_windows_to_be(2))
+        self.driver.switch_to.window(self.driver.window_handles[1])
+        return WebDriverWait(self.driver, 10).until(expected_conditions.url_contains(site_name))
+
 

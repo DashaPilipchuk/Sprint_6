@@ -1,8 +1,7 @@
 from locators.order_scooter_page_locators import OrderScooterPageLocators
 from locators.scooter_page_locators import ScooterPageLocators
 from pages.scooter_page import ScooterPage
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
+from const import Constants
 import allure
 
 
@@ -27,6 +26,4 @@ class TestScooterPage:
         scooter_page = ScooterPage(driver)
         scooter_page.go_to_site_scooter('https://qa-scooter.praktikum-services.ru/')
         scooter_page.go_to_dzen_page_from_scooter_page()
-        WebDriverWait(driver, 10).until(expected_conditions.number_of_windows_to_be(2))
-        driver.switch_to.window(driver.window_handles[1])
-        assert WebDriverWait(driver, 10).until(expected_conditions.url_contains("https://dzen.ru"))
+        assert scooter_page.go_to_new_window(Constants.SITE_NAME)
